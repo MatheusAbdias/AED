@@ -1,28 +1,26 @@
 {
-    // Use o IntelliSense para saber mais sobre os atributos possíveis.
-    // Focalizar para exibir as descrições dos atributos existentes.
-    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0", 
-    "configurations": [
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/bin/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd" : "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gbd",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "C/C++: gcc arquivo de build ativo"
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "(gdb) Lauch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/bin/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}",
+      "environment": [],  
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        { 
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ],
+      "preLaunchTask": "C/C++: gcc build",
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
 }
