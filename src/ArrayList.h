@@ -1,71 +1,68 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
-struct _arraylist {
-    int * vector;
-    int index;
-    int size;
+struct arraylist {
+    int* vetor;
+    int qtdade;
+    int capacidade;
 };
 
-struct _arraylist* Init(int size) {
-    /* Allocate Memory */
-    struct _arraylist *list = (struct _arraylist*)malloc(sizeof(struct _arraylist));
-    list->vector = (int*)calloc(size, sizeof(int));
-    list->index=0;
-    list->size = size;
-    return list;
+struct arraylist* inicializar(int capacidade) {
+    struct arraylist* lista = (struct arraylist*)malloc(sizeof(struct arraylist));
+    lista->vetor = (int*)calloc(capacidade, sizeof(int));
+    lista->qtdade = 0;
+    lista->capacidade = capacidade;
+    return lista;
 }
 
-int Get(struct _arraylist* list, int index){
-    if(index >= 0 && index < list->index) return list->vector[index];
-    return -1;
-} 
-
-void ArraySizeDuplicated(struct _arraylist* list){
-    list->vector = (int*)realloc(list->vector,2*list->size*sizeof(int));
-    list->size*2;
+int obterElementoEmPosicao(struct arraylist* lista, int posicao) {
+    if (posicao>=0 && posicao < lista->qtdade) return lista->vetor[posicao];
 }
 
-void PushBack(struct _arraylist* list,int value){
-    if (list->index == list->size) ArraySizeDuplicated(list);
-    list->vector[list->index] = value;
-    list->index++;
+void duplicarCapacidade(struct arraylist* lista) {
+    lista->vetor = (int*)realloc(lista->vetor, 2 * lista->capacidade * sizeof(int));
+    lista->capacidade = 2 * lista->capacidade ;
 }
 
-void InsertElement(struct _arraylist* list,int value,int index){
-    if(index >= 0 && index < list->index){
-        if(list->index == list->size)ArraySizeDuplicated(list);
-        for(int i = index; i > index; i--){
-            list->vector[i] = list->vector[i-1];
-        }
-        list->vector[index] = value;
-        list->index++;
+void inserirElementoNoFim(struct arraylist* lista, int valor) {
+    if (lista->qtdade == lista->capacidade) duplicarCapacidade(lista);
+    lista->vetor[lista->qtdade] = valor;
+    lista->qtdade ++;
+}
+
+void inserirElementoEmPosicao(struct arraylist* lista, int valor, int posicao) {
+    if (posicao >= 0 && posicao < lista->qtdade) {
+       if (lista->qtdade == lista->capacidade) duplicarCapacidade(lista);
+       for (int i = lista->qtdade; i >posicao;i--) {
+           lista->vetor[i] = lista->vetor[i-1];
+       }    
+       lista->vetor[posicao] = valor;
+       lista->qtdade ++;
     }
 }
 
-void SetValue(struct _arraylist* list,int value,int index){
-    if(index >= 0 && index<list->index) list->vector[index]=value;
+void atualizarElemento(struct arraylist* lista, int valor, int posicao) {
+    if (posicao >= 0 && posicao <= lista->qtdade)lista->vetor[posicao] = valor;
 }
 
-void PopBack(struct _arraylist* list){
-    list->index--;
+void removerElementoNoFim(struct arraylist* lista) {
+    lista->qtdade--;
 }
 
-void PopElement(struct _arraylist* list,int index){
-    if(index >= 0 && index < list->index){
-        for(int i=index; i< list->index-1;i++){
-            list->vector[i-1] = list->vector[i];
+void removerElementoEmPosicao(struct arraylist* lista, int posicao) {
+    if (posicao >= 0 && posicao <= lista->qtdade) {
+        for (int i = posicao; i <= lista->qtdade - 1;i++) {
+            lista->vetor[i] = lista->vetor[i + 1];
         }
-        list->index--;
-    }
+        lista->qtdade--;
+   }
 }
 
-void RepresetationArrayList(struct _arraylist* list){
-    printf("###################[Array List]########################");
+void exibirLista(struct arraylist* lista) {
     printf("[");
-    for(int i=0;i<list->index;i++){
-        printf("%d", list->vector[i]);
-        if(i < list->index-1){
+    for (int i = 0; i < lista->qtdade; i++) {
+        printf("%d", lista->vetor[i]);
+        if (i < lista->qtdade - 1) {
             printf(", ");
         }
     }
