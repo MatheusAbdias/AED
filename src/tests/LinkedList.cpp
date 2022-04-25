@@ -94,6 +94,7 @@ TEST_F(LinkedListTest2, InsercaoEmPosicaoInicio) {
 	}
 }
 
+
 //obterElementoEmPosicao ja foi testado em todos os casos de teste
 
 TEST_F(LinkedListTest2, RemocaoFim) {
@@ -108,6 +109,7 @@ TEST_F(LinkedListTest2, RemocaoFim) {
 	}
 	EXPECT_EQ(lista->qtdade,0);
 }
+
 
 TEST_F(LinkedListTest2, RemocaoInicio) {
 	int numElementos = 100;
@@ -124,6 +126,7 @@ TEST_F(LinkedListTest2, RemocaoInicio) {
 	EXPECT_EQ(lista->qtdade, 0);
 }
 
+/*
 TEST_F(LinkedListTest2, RemocaoMeio) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
@@ -138,6 +141,7 @@ TEST_F(LinkedListTest2, RemocaoMeio) {
 	}
 	EXPECT_EQ(lista->qtdade, 0);
 }
+*/
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
