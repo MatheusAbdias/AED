@@ -4,10 +4,10 @@
 //Para Linux:
 #include <gtest/gtest.h>
 
-#include "../LinkedList.h"
+#include "../DoublyLinkedList.h"
 #include <math.h>
 
-class LinkedListTest2 : public ::testing::Test {
+class DoublyLinkedListTest2 : public ::testing::Test {
 protected:
 	virtual void TearDown() {
 		struct no* aux;
@@ -24,22 +24,24 @@ protected:
 		lista = inicializar();
 	}
 
-	struct linkedlist* lista = NULL;
+	struct doublylinkedlist* lista = NULL;
 };
 
-TEST_F(LinkedListTest2, InsercaoListaVaziaFim) {
+TEST_F(DoublyLinkedListTest2, InsercaoListaVaziaFim) {
 	inserirElementoNoFim(lista, 10);
 	EXPECT_EQ(lista->qtdade, 1);
 	EXPECT_EQ(obterElementoEmPosicao(lista, 0), 10);
 }
 
-TEST_F(LinkedListTest2, InsercaoListaVaziaInicio) {
+TEST_F(DoublyLinkedListTest2, InsercaoListaVaziaInicio) {
 	inserirElementoNoInicio(lista, 10);
 	EXPECT_EQ(lista->qtdade, 1);
 	EXPECT_EQ(obterElementoEmPosicao(lista, 0), 10);
+	EXPECT_EQ(lista->cabeca->val, 10);
+	EXPECT_EQ(lista->cauda->val, 10);
 }
 
-TEST_F(LinkedListTest2, InsercaoListaNaoVaziaFim) {
+TEST_F(DoublyLinkedListTest2, InsercaoListaNaoVaziaFim) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoNoFim(lista, i);
@@ -48,9 +50,11 @@ TEST_F(LinkedListTest2, InsercaoListaNaoVaziaFim) {
 	for (int i = 0; i < numElementos; i++) {
 		EXPECT_EQ(obterElementoEmPosicao(lista, i), i);
 	}	
+	EXPECT_EQ(lista->cabeca->val, 0);
+	EXPECT_EQ(lista->cauda->val, numElementos-1);
 }
 
-TEST_F(LinkedListTest2, InsercaoListaNaoVaziaInicio) {
+TEST_F(DoublyLinkedListTest2, InsercaoListaNaoVaziaInicio) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoNoInicio(lista, i);
@@ -59,9 +63,11 @@ TEST_F(LinkedListTest2, InsercaoListaNaoVaziaInicio) {
 	for (int i = 0; i < numElementos; i++) {
 		EXPECT_EQ(obterElementoEmPosicao(lista, i), numElementos-1-i);
 	}
+	EXPECT_EQ(lista->cabeca->val, numElementos - 1);
+	EXPECT_EQ(lista->cauda->val, 0);
 }
 
-TEST_F(LinkedListTest2, InsercaoEmPosicaoFim) {
+TEST_F(DoublyLinkedListTest2, InsercaoEmPosicaoFim) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoEmPosicao(lista, i, i);
@@ -70,9 +76,11 @@ TEST_F(LinkedListTest2, InsercaoEmPosicaoFim) {
 	for (int i = 0; i < numElementos; i++) {
 		EXPECT_EQ(obterElementoEmPosicao(lista, i), i);
 	}
+	EXPECT_EQ(lista->cabeca->val, 0);
+	EXPECT_EQ(lista->cauda->val, numElementos - 1);
 }
 
-TEST_F(LinkedListTest2, InsercaoaEmPosicaoMeio) {
+TEST_F(DoublyLinkedListTest2, InsercaoaEmPosicaoMeio) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoEmPosicao(lista, i, i);
@@ -81,9 +89,12 @@ TEST_F(LinkedListTest2, InsercaoaEmPosicaoMeio) {
 	int pos = 50;
 	inserirElementoEmPosicao(lista, 9999, pos);
 	EXPECT_EQ(obterElementoEmPosicao(lista, pos), 9999);
+
+	EXPECT_EQ(lista->cabeca->val, 0);
+	EXPECT_EQ(lista->cauda->val, numElementos - 1);
 }
 
-TEST_F(LinkedListTest2, InsercaoEmPosicaoInicio) {
+TEST_F(DoublyLinkedListTest2, InsercaoEmPosicaoInicio) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoEmPosicao(lista, i, 0);
@@ -92,13 +103,15 @@ TEST_F(LinkedListTest2, InsercaoEmPosicaoInicio) {
 	for (int i = 0; i < numElementos; i++) {
 		EXPECT_EQ(obterElementoEmPosicao(lista, i), numElementos - 1 - i);
 	}
+
+	EXPECT_EQ(lista->cabeca->val, numElementos - 1);
+	EXPECT_EQ(lista->cauda->val, 0);
 }
 
+//obterElementoEmPosicao j� foi testado em todos os casos de teste
 
-//obterElementoEmPosicao ja foi testado em todos os casos de teste
-
-TEST_F(LinkedListTest2, RemocaoFim) {
-	int numElementos = 100;
+TEST_F(DoublyLinkedListTest2, RemocaoFim) {
+	int numElementos = 5;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoNoFim(lista, i);
 	}
@@ -108,10 +121,11 @@ TEST_F(LinkedListTest2, RemocaoFim) {
 		EXPECT_EQ(lista->qtdade, numElementos-i-1);
 	}
 	EXPECT_EQ(lista->qtdade,0);
+	EXPECT_EQ(lista->cabeca, nullptr);
+	EXPECT_EQ(lista->cauda, nullptr);
 }
 
-
-TEST_F(LinkedListTest2, RemocaoInicio) {
+TEST_F(DoublyLinkedListTest2, RemocaoInicio) {
 	int numElementos = 100;
 	for (int i = 0; i < numElementos; i++) {
 		inserirElementoNoFim(lista, i);
@@ -124,11 +138,12 @@ TEST_F(LinkedListTest2, RemocaoInicio) {
 			EXPECT_EQ(obterElementoEmPosicao(lista, 0), i+1);
 	}
 	EXPECT_EQ(lista->qtdade, 0);
+	EXPECT_EQ(lista->cabeca, nullptr);
+	EXPECT_EQ(lista->cauda, nullptr);
 }
 
-
-TEST_F(LinkedListTest2, RemocaoMeio) {
-	int numElementos = 100;
+TEST_F(DoublyLinkedListTest2, RemocaoMeio) {
+	int numElementos = 10;
 	for (int i = 0; i < numElementos; i++) {
 		double tamDouble = (double)lista->qtdade;
 		int pos = ceil(tamDouble / 2);
@@ -140,10 +155,11 @@ TEST_F(LinkedListTest2, RemocaoMeio) {
 		removerElementoEmPosicao(lista, ceil(lista->qtdade / 2));
 	}
 	EXPECT_EQ(lista->qtdade, 0);
+	EXPECT_EQ(lista->cabeca, nullptr);
+	EXPECT_EQ(lista->cauda, nullptr);
 }
 
-
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+int main(int argc, char** argv) {
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }
