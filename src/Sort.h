@@ -47,3 +47,59 @@ void boubleSort(int *list, int size){
         list[indexMax] = temp;
     }
 }
+
+void merger(int* listMain,int mainSize, int* listFirstBranch, int firstBranchSize, int* listSecondBranch,int secondBranchSize){
+    int indexMain =0, indexFirstBranch=0, indexSecondBranch=0;
+
+    while(indexFirstBranch<firstBranchSize && indexSecondBranch<secondBranchSize){
+        
+        if(listFirstBranch[indexFirstBranch] <= listSecondBranch[indexSecondBranch]){
+            listMain[indexMain]=listFirstBranch[indexFirstBranch];
+            indexFirstBranch++;
+        }
+        else{
+            listMain[indexMain]=listSecondBranch[indexSecondBranch];
+            indexSecondBranch++;
+        }
+        
+        indexMain++;
+    }
+    
+    while(indexFirstBranch<firstBranchSize){
+        listMain[indexMain] = listSecondBranch[indexSecondBranch];
+        indexSecondBranch++;
+        indexMain++;
+    }
+
+    while(indexSecondBranch<secondBranchSize){
+        listMain[indexMain] = listFirstBranch[indexFirstBranch];
+        indexFirstBranch++;
+        indexMain++;
+    }
+}
+
+void mergeSort(int *list,int size){
+    if(size>1){
+        int indexMid = size/2;
+        int firstBranchSize = size-indexMid,secondBranchSize=indexMid;
+
+        int* listFirstBranch = (int*)calloc(firstBranchSize, sizeof(int));
+        int* listSecondBranch = (int*)calloc(secondBranchSize,sizeof(int));
+
+        for(int index=0; index<indexMid; index++){
+            listFirstBranch[index] = list[index];
+        }
+
+        for(int index=indexMid; index<size; index++){
+            listSecondBranch[index] = list[index];
+        }
+
+        mergeSort(listFirstBranch,firstBranchSize);
+        mergeSort(listSecondBranch, secondBranchSize);
+        merger(list,size,listFirstBranch,firstBranchSize,listSecondBranch,secondBranchSize);
+
+        free(listFirstBranch);
+        free(listSecondBranch);
+    }
+}
+
