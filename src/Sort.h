@@ -1,10 +1,10 @@
 #include <stdlib.h>
 
 void SelectionSort(int *list,int size){
-    for (int index=0; index < size; index++){
-        int lowerIndex = 0;
+    for (int index=0; index < size-1; index++){
+        int lowerIndex = index;
 
-        for (int jIndex=0; jIndex<size; jIndex++){
+        for (int jIndex=index+1; jIndex<size; jIndex++){
         
             if(list[jIndex]<list[lowerIndex]){
                 lowerIndex = jIndex;
@@ -33,9 +33,8 @@ void InsertionSort(int* list, int size){
 }
 
 void boubleSort(int *list, int size){
-    int indexMax = 0;
     for(int index=0;index<size;index++){
-
+        int indexMax = 0;
         for(int jIndex=0;jIndex<size-index;jIndex++){
             if(list[jIndex]>list[indexMax]){
                 indexMax=jIndex;
