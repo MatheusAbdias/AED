@@ -1,15 +1,18 @@
 #include <stdlib.h>
 
-void SelectionSort(int *list,int size){
-    for (int index=0; index < size-1; index++){
+void SelectionSort(int *list, int size)
+{
+    for (int index = 0; index < size - 1; index++)
+    {
         int lowerIndex = index;
 
-        for (int jIndex=index+1; jIndex<size; jIndex++){
-        
-            if(list[jIndex]<list[lowerIndex]){
+        for (int jIndex = index + 1; jIndex < size; jIndex++)
+        {
+
+            if (list[jIndex] < list[lowerIndex])
+            {
                 lowerIndex = jIndex;
             }
-
         }
 
         int temp = list[index];
@@ -18,87 +21,145 @@ void SelectionSort(int *list,int size){
     }
 }
 
-void InsertionSort(int* list, int size){
-    for(int index=1;index<size;index++){
-        
-        for (int jIndex=index;jIndex>0;jIndex--){
-            if(list[jIndex-1] > list[jIndex]){
-                int temp = list[jIndex-1];
-                
-                list[jIndex-1]=list[jIndex];
-                list[jIndex]=temp;
+void InsertionSort(int *list, int size)
+{
+    for (int index = 1; index < size; index++)
+    {
+
+        for (int jIndex = index; jIndex > 0; jIndex--)
+        {
+            if (list[jIndex - 1] > list[jIndex])
+            {
+                int temp = list[jIndex - 1];
+
+                list[jIndex - 1] = list[jIndex];
+                list[jIndex] = temp;
             }
         }
     }
 }
 
-void boubleSort(int *list, int size){
-    for(int index=0;index<size;index++){
+void boubleSort(int *list, int size)
+{
+    for (int index = 0; index < size; index++)
+    {
         int indexMax = 0;
-        for(int jIndex=0;jIndex<size-index;jIndex++){
-            if(list[jIndex]>list[indexMax]){
-                indexMax=jIndex;
+        for (int jIndex = 0; jIndex < size - index; jIndex++)
+        {
+            if (list[jIndex] > list[indexMax])
+            {
+                indexMax = jIndex;
             }
         }
-        int temp = list[size-1-index];
+        int temp = list[size - 1 - index];
 
-        list[size-1-index] = list[indexMax];
+        list[size - 1 - index] = list[indexMax];
         list[indexMax] = temp;
     }
 }
 
-void merger(int* listMain,int mainSize, int* listFirstBranch, int firstBranchSize, int* listSecondBranch,int secondBranchSize){
-    int indexMain =0, indexFirstBranch=0, indexSecondBranch=0;
+void merge(int *listMain, int mainSize, int *listFirstBranch, int firstBranchSize, int *listSecondBranch, int secondBranchSize)
+{
+    int indexMain = 0, indexFirstBranch = 0, indexSecondBranch = 0;
 
-    while(indexFirstBranch<firstBranchSize && indexSecondBranch<secondBranchSize){
-        
-        if(listFirstBranch[indexFirstBranch] <= listSecondBranch[indexSecondBranch]){
-            listMain[indexMain]=listFirstBranch[indexFirstBranch];
+    while (indexFirstBranch < firstBranchSize && indexSecondBranch < secondBranchSize)
+    {
+
+        if (listFirstBranch[indexFirstBranch] <= listSecondBranch[indexSecondBranch])
+        {
+            listMain[indexMain] = listFirstBranch[indexFirstBranch];
             indexFirstBranch++;
         }
-        else{
-            listMain[indexMain]=listSecondBranch[indexSecondBranch];
+        else
+        {
+            listMain[indexMain] = listSecondBranch[indexSecondBranch];
             indexSecondBranch++;
         }
-        
-        indexMain++;
-    }
-    
-    while(indexFirstBranch<firstBranchSize){
-        listMain[indexMain] = listSecondBranch[indexSecondBranch];
-        indexSecondBranch++;
+
         indexMain++;
     }
 
-    while(indexSecondBranch<secondBranchSize){
+    while (indexFirstBranch < firstBranchSize)
+    {
         listMain[indexMain] = listFirstBranch[indexFirstBranch];
         indexFirstBranch++;
         indexMain++;
     }
+
+    while (indexSecondBranch < secondBranchSize)
+    {
+        listMain[indexMain] = listSecondBranch[indexSecondBranch];
+        indexSecondBranch++;
+        indexMain++;
+    }
 }
 
-void mergeSort(int *list,int size){
-    if(size>1){
-        int indexMid = size/2;
-        int firstBranchSize = size-indexMid,secondBranchSize=indexMid;
+void mergeSort(int *list, int size)
+{
+    if (size > 1)
+    {
+        int indexMid = size / 2;
+        int firstBranchSize = indexMid, secondBranchSize = size - indexMid;
 
-        int* listFirstBranch = (int*)calloc(firstBranchSize, sizeof(int));
-        int* listSecondBranch = (int*)calloc(secondBranchSize,sizeof(int));
+        int *listFirstBranch = (int *)malloc(firstBranchSize * sizeof(int));
+        int *listSecondBranch = (int *)malloc(secondBranchSize * sizeof(int));
 
-        for(int index=0; index<indexMid; index++){
+        for (int index = 0; index < indexMid; index++)
+        {
             listFirstBranch[index] = list[index];
         }
 
-        for(int index=indexMid; index<size; index++){
-            listSecondBranch[index] = list[index];
+        for (int index = indexMid; index < size; index++)
+        {
+            listSecondBranch[index - indexMid] = list[index];
         }
 
-        mergeSort(listFirstBranch,firstBranchSize);
+        mergeSort(listFirstBranch, firstBranchSize);
         mergeSort(listSecondBranch, secondBranchSize);
-        merger(list,size,listFirstBranch,firstBranchSize,listSecondBranch,secondBranchSize);
+        merge(list, size, listFirstBranch, firstBranchSize, listSecondBranch, secondBranchSize);
 
         free(listFirstBranch);
         free(listSecondBranch);
     }
 }
 
+void switch_values(int *list, int firstValue, int secondValue)
+{
+    int temp = list[firstValue];
+
+    list[firstValue] = list[secondValue];
+    list[secondValue] = temp;
+}
+
+int partition(int *list, int indexFirst, int indexEnd)
+{
+    int indexPivo = indexFirst;
+    int randIndex = rand() % indexEnd;
+
+    switch_values(list, randIndex, indexEnd);
+
+    int pivo = list[indexEnd];
+    for (int index = indexFirst; index < indexEnd; index++)
+    {
+        if (list[index] <= pivo)
+        {
+            switch_values(list, indexPivo, index);
+            indexPivo++;
+        }
+    }
+
+    switch_values(list, indexPivo, indexEnd);
+
+    return indexPivo;
+}
+
+void quickSort(int *list, int indexFirst, int indexEnd)
+{
+    if (indexEnd > indexFirst)
+    {
+        int indexPivo = partition(list, indexFirst, indexEnd);
+
+        quickSort(list, indexFirst, indexPivo);
+        quickSort(list, indexPivo + 1, indexEnd);
+    }
+}
