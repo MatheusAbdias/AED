@@ -134,7 +134,7 @@ void switch_values(int *list, int firstValue, int secondValue)
 int partition(int *list, int indexFirst, int indexEnd)
 {
     int indexPivo = indexFirst;
-    int randIndex = rand()%(indexEnd-indexFirst)+indexFirst;
+    int randIndex = rand() % (indexEnd - indexFirst) + indexFirst;
 
     switch_values(list, randIndex, indexEnd);
 
@@ -162,4 +162,47 @@ void quickSort(int *list, int start, int end)
         quickSort(list, start, indexPivo - 1);
         quickSort(list, indexPivo + 1, end);
     }
+}
+
+int findMax(int *list, int size)
+{
+    int max = list[0];
+    for (int index = 1; index < size; index++)
+    {
+        if (max < list[index])
+        {
+            max = list[index];
+        }
+    }
+    return max;
+}
+
+void countingSort(int *list, int size)
+{
+    int max = findMax(list, size);
+    int *countList = (int *)calloc(max, sizeof(int));
+    for (int index = 0; index < size; index++)
+    {
+        countList[list[index]]++;
+    }
+
+    for (int index = 1; index <=max; index++)
+    {
+        countList[index] += countList[index - 1];
+    }
+
+    int *sortedList = (int *)malloc(size * sizeof(int));
+    for (int index = 0; index < size; index++)
+    {
+        countList[list[index]] -= 1;
+        int sortedIndex = countList[list[index]];
+        sortedList[sortedIndex] = list[index];
+    }
+
+    for (int index = 0; index < size; index++)
+    {
+        list[index] = sortedList[index];
+    }
+    free(sortedList);
+    free(countList);
 }

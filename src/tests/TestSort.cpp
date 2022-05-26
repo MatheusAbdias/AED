@@ -87,6 +87,21 @@ TEST_F(SortList, quickSort)
     }
 }
 
+TEST_F(SortList, countingSort)
+{
+    for (int index = 0; index < size; index++)
+    {
+        list[index] = size - index;
+    }
+
+    countingSort(list, size);
+
+    for (int index = 0; index < size; index++)
+    {
+        EXPECT_EQ(list[index], index + 1);
+    }
+}
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
