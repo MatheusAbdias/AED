@@ -39,7 +39,7 @@ void InsertionSort(int *list, int size)
     }
 }
 
-void boubleSort(int *list, int size)
+void bubbleSort(int *list, int size)
 {
     for (int index = 0; index < size; index++)
     {
@@ -134,7 +134,7 @@ void switch_values(int *list, int firstValue, int secondValue)
 int partition(int *list, int indexFirst, int indexEnd)
 {
     int indexPivo = indexFirst;
-    int randIndex = rand() % indexEnd;
+    int randIndex = rand()%(indexEnd-indexFirst)+indexFirst;
 
     switch_values(list, randIndex, indexEnd);
 
@@ -153,13 +153,13 @@ int partition(int *list, int indexFirst, int indexEnd)
     return indexPivo;
 }
 
-void quickSort(int *list, int indexFirst, int indexEnd)
+void quickSort(int *list, int start, int end)
 {
-    if (indexEnd > indexFirst)
+    if (end > start)
     {
-        int indexPivo = partition(list, indexFirst, indexEnd);
+        int indexPivo = partition(list, start, end);
 
-        quickSort(list, indexFirst, indexPivo);
-        quickSort(list, indexPivo + 1, indexEnd);
+        quickSort(list, start, indexPivo - 1);
+        quickSort(list, indexPivo + 1, end);
     }
 }
