@@ -1,43 +1,49 @@
 #include <gtest/gtest.h>
 #include "../bst.h"
-class BstTest2 : public ::testing::Test {
+class BstTest2 : public ::testing::Test
+{
 protected:
-
-	void freeRecursively(struct noBst* raiz) {
-		if (raiz != NULL) {
+	void freeRecursively(struct noBst *raiz)
+	{
+		if (raiz != NULL)
+		{
 			freeRecursively(raiz->esq);
 			freeRecursively(raiz->dir);
 			free(raiz);
 		}
 	}
 
-	virtual void TearDown() {
+	virtual void TearDown()
+	{
 		freeRecursively(bst->raiz);
 	}
 
-	virtual void SetUp() {
+	virtual void SetUp()
+	{
 		bst = alocarBst();
 	}
 
-
-	struct bst* bst = NULL;
+	struct bst *bst = NULL;
 };
-/*
-TEST_F(BstTest2, InsercaoRecBSTVazia) {
+
+TEST_F(BstTest2, InsercaoRecBSTVazia)
+{
 	bool rec = true;
 	EXPECT_EQ(bst->tam, 0);
 	inserir(bst, 10, rec);
 	EXPECT_EQ(bst->tam, 1);
 }
 
-TEST_F(BstTest2, InsercaoItBSTVazia) {
+TEST_F(BstTest2, InsercaoItBSTVazia)
+{
 	bool rec = false;
 	EXPECT_EQ(bst->tam, 0);
 	inserir(bst, 10, rec);
 	EXPECT_EQ(bst->tam, 1);
 }
 
-TEST_F(BstTest2, InsercaoRecBSTNaoVazia) {
+TEST_F(BstTest2, InsercaoRecBSTNaoVazia)
+{
 	bool rec = true;
 	inserir(bst, 10, rec);
 	inserir(bst, 5, rec);
@@ -46,7 +52,8 @@ TEST_F(BstTest2, InsercaoRecBSTNaoVazia) {
 	EXPECT_EQ(bst->tam, 4);
 }
 
-TEST_F(BstTest2, InsercaoItBSTNaoVazia) {
+TEST_F(BstTest2, InsercaoItBSTNaoVazia)
+{
 	bool rec = false;
 	inserir(bst, 10, rec);
 	inserir(bst, 5, rec);
@@ -55,15 +62,15 @@ TEST_F(BstTest2, InsercaoItBSTNaoVazia) {
 	EXPECT_EQ(bst->tam, 4);
 }
 
-
-TEST_F(BstTest2, BuscaBSTVaziaRec) {
+TEST_F(BstTest2, BuscaBSTVaziaRec)
+{
 	bool rec = true;
 	int umValorQualquer = 123;
 	EXPECT_FALSE(buscar(bst, umValorQualquer, rec));
 }
 
-
-TEST_F(BstTest2, BuscaBSTNaoVaziaRec) {
+TEST_F(BstTest2, BuscaBSTNaoVaziaRec)
+{
 	bool rec = true;
 	inserir(bst, 10, rec);
 	inserir(bst, 5, rec);
@@ -77,14 +84,15 @@ TEST_F(BstTest2, BuscaBSTNaoVaziaRec) {
 	EXPECT_FALSE(buscar(bst, umValorQualquer, rec));
 }
 
-TEST_F(BstTest2, BuscaBSTVaziaIt) {
+TEST_F(BstTest2, BuscaBSTVaziaIt)
+{
 	bool rec = false;
 	int umValorQualquer = 123;
 	EXPECT_FALSE(buscar(bst, umValorQualquer, rec));
 }
-*/
 
-TEST_F(BstTest2, BuscaBSTNaoVaziaIt) {
+TEST_F(BstTest2, BuscaBSTNaoVaziaIt)
+{
 	bool rec = false;
 	inserir(bst, 10, rec);
 	inserir(bst, 5, rec);
@@ -98,8 +106,8 @@ TEST_F(BstTest2, BuscaBSTNaoVaziaIt) {
 	EXPECT_FALSE(buscar(bst, umValorQualquer, rec));
 }
 
-/*
-TEST_F(BstTest2, BuscaEmOrdem) {
+TEST_F(BstTest2, BuscaEmOrdem)
+{
 	bool rec = false;
 	inserir(bst, 8, rec);
 	inserir(bst, 5, rec);
@@ -113,7 +121,8 @@ TEST_F(BstTest2, BuscaEmOrdem) {
 	std::cout << std::endl;
 }
 
-TEST_F(BstTest2, BuscaPreOrdem) {
+TEST_F(BstTest2, BuscaPreOrdem)
+{
 	bool rec = false;
 	inserir(bst, 8, rec);
 	inserir(bst, 5, rec);
@@ -127,7 +136,8 @@ TEST_F(BstTest2, BuscaPreOrdem) {
 	std::cout << std::endl;
 }
 
-TEST_F(BstTest2, BuscaPosOrdem) {
+TEST_F(BstTest2, BuscaPosOrdem)
+{
 	bool rec = false;
 	inserir(bst, 8, rec);
 	inserir(bst, 5, rec);
@@ -141,7 +151,8 @@ TEST_F(BstTest2, BuscaPosOrdem) {
 	std::cout << std::endl;
 }
 
-TEST_F(BstTest2, MinBST) {
+TEST_F(BstTest2, MinBST)
+{
 	EXPECT_EQ(min(bst->raiz), NULL);
 
 	inserir(bst, 10, true);
@@ -154,7 +165,8 @@ TEST_F(BstTest2, MinBST) {
 	EXPECT_EQ(min(bst->raiz), -10);
 }
 
-TEST_F(BstTest2, MaxBST) {
+TEST_F(BstTest2, MaxBST)
+{
 	EXPECT_EQ(max(bst->raiz), NULL);
 
 	inserir(bst, 10, true);
@@ -167,8 +179,9 @@ TEST_F(BstTest2, MaxBST) {
 	EXPECT_EQ(max(bst->raiz), 100);
 }
 
-TEST_F(BstTest2, AlturaBST) {
-	EXPECT_EQ(altura(bst->raiz), 0);
+TEST_F(BstTest2, AlturaBST)
+{
+	EXPECT_EQ(altura(bst->raiz), -1);
 
 	inserir(bst, 10, true);
 	EXPECT_EQ(altura(bst->raiz), 0);
@@ -182,7 +195,8 @@ TEST_F(BstTest2, AlturaBST) {
 	EXPECT_EQ(altura(bst->raiz), 3);
 }
 
-TEST_F(BstTest2, Remover) {
+TEST_F(BstTest2, Remover)
+{
 	inserir(bst, 12, true);
 	inserir(bst, 4, true);
 	inserir(bst, 2, true);
@@ -198,9 +212,9 @@ TEST_F(BstTest2, Remover) {
 	inserir(bst, 16, true);
 	EXPECT_EQ(bst->tam, 13);
 
-	//1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21 
-	EXPECT_TRUE(buscar(bst, 12,true)); 
-	remover(bst, 12);					//removendo no com 2 filhos: caso 3
+	// 1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21
+	EXPECT_TRUE(buscar(bst, 12, true));
+	remover(bst, 12); // removendo no com 2 filhos: caso 3
 	EXPECT_EQ(bst->tam, 12);
 	EXPECT_TRUE(buscar(bst, 1, true));
 	EXPECT_TRUE(buscar(bst, 2, true));
@@ -215,10 +229,9 @@ TEST_F(BstTest2, Remover) {
 	EXPECT_TRUE(buscar(bst, 16, true));
 	EXPECT_TRUE(buscar(bst, 18, true));
 	EXPECT_TRUE(buscar(bst, 21, true));
-	
 
-	//1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21 
-	remover(bst, 1);					//removendo no folha: caso 1
+	// 1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21
+	remover(bst, 1); // removendo no folha: caso 1
 	EXPECT_EQ(bst->tam, 11);
 	EXPECT_FALSE(buscar(bst, 1, true));
 	EXPECT_TRUE(buscar(bst, 2, true));
@@ -234,8 +247,8 @@ TEST_F(BstTest2, Remover) {
 	EXPECT_TRUE(buscar(bst, 18, true));
 	EXPECT_TRUE(buscar(bst, 21, true));
 
-	//1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21 ]
-	remover(bst, 15);				//removendo n� com apenas 1 filho (caso 2)
+	// 1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 18, 21 ]
+	remover(bst, 15); // removendo n� com apenas 1 filho (caso 2)
 	EXPECT_EQ(bst->tam, 10);
 	EXPECT_FALSE(buscar(bst, 1, true));
 	EXPECT_TRUE(buscar(bst, 2, true));
@@ -250,8 +263,10 @@ TEST_F(BstTest2, Remover) {
 	EXPECT_TRUE(buscar(bst, 16, true));
 	EXPECT_TRUE(buscar(bst, 18, true));
 	EXPECT_TRUE(buscar(bst, 21, true));
-}*/
-int main(int argc, char** argv) {
+}
+
+int main(int argc, char **argv)
+{
 	testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
