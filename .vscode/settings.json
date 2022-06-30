@@ -27,6 +27,7 @@
         "string_view": "cpp",
         "utility": "cpp",
         "random": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "iostream": "cpp"
     }
 }
