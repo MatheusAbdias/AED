@@ -57,6 +57,7 @@ void arvDescompensadaDir(struct noBst **raiz, int *tamanho)
 	//            3(C)   5(E)
 }
 
+/*
 TEST_F(AvlTest, RotacaoDireita)
 {
     arvDescompensadaEsq(&raiz, &tamanho);
@@ -64,13 +65,14 @@ TEST_F(AvlTest, RotacaoDireita)
     EXPECT_EQ(raiz->val, 4);
     EXPECT_EQ(raiz->balanco, -1);
 
+
     raiz = rotacaoDireita(raiz);
 
     EXPECT_EQ(tamanho, 5);
     EXPECT_EQ(raiz->val, 2);
     EXPECT_EQ(raiz->balanco, 1);
 }
-/*
+
 TEST_F(AvlTest, RotacaoEsquerda)
 {
     arvDescompensadaDir(&raiz, &tamanho);
@@ -93,6 +95,7 @@ TEST_F(AvlTest, InsercaoValoresCrescentes)
         EXPECT_TRUE(raiz->balanco >= -1 && raiz->balanco <= 1);
     }
 }
+*/
 
 TEST_F(AvlTest, InsercaoValoresDecrescentes)
 {
@@ -103,6 +106,7 @@ TEST_F(AvlTest, InsercaoValoresDecrescentes)
     }
 }
 
+/*
 TEST_F(AvlTest, RemocaoValoresAleatorios)
 {
     for (int i = 0; i < 1000; i++)

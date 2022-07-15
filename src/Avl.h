@@ -54,6 +54,9 @@ struct noBst *rotacaoDireita(struct noBst *arvore)
     arvore->esq = novaRaiz->dir;
     novaRaiz->dir = arvore;
 
+    atualizar(arvore);
+    atualizar(novaRaiz);
+
     return novaRaiz;
 }
 
@@ -61,7 +64,10 @@ struct noBst *rotacaoEsquerda(struct noBst *arvore)
 {
     struct noBst *novaRaiz = arvore->dir;
     arvore->dir = novaRaiz->esq;
-    novaRaiz->dir = arvore;
+    novaRaiz->esq = arvore;
+
+    atualizar(arvore);
+    atualizar(novaRaiz);
 
     return novaRaiz;
 }
@@ -82,26 +88,24 @@ void inserir(struct noBst **raiz, int val, int *tamanho)
 {
     if (*raiz == NULL)
     {
+        *tamanho = *tamanho + 1;
         *raiz = alocarNovoNo(val);
     }
     else
     {
 
         if ((*raiz)->val > val)
-            {
-                inserir(&((*raiz)->esq), val, tamanho);
-                *raiz = balancear(*raiz);
-                atualizar(*raiz);
-            }
+        {
+            inserir(&((*raiz)->esq), val, tamanho);
+        }
         else
         {
             inserir(&((*raiz)->dir), val, tamanho);
-            *raiz = balancear(*raiz);
-            atualizar(*raiz);
         }
     }
 
-    tamanho++;
+    atualizar(*raiz);
+    *raiz = balancear(*raiz);
 }
 
 void atualizar(struct noBst *no)
@@ -139,6 +143,7 @@ void atualizar(struct noBst *no)
             else
             {
                 no->balanco = 0;
+                no->altura = 0;
             }
         }
     }
@@ -157,44 +162,32 @@ void atualizar(struct noBst *no)
  **/
 struct noBst *balancear(struct noBst *no)
 {
-    if (no->esq == NULL || no->dir == NULL)
+    if (no->esq == NULL && no->dir == NULL)
     {
         return no;
     }
     else
     {
-
-        if (no->esq->altura == 2 && no->dir->altura == 0 && no->esq->balanco == -1)
+        if (no->balanco == -2)
         {
-            return rebalancearEsqEsq(no);
+            if (no->esq->balanco == -1)
+            {
+                return rebalancearEsqEsq(no);
+            }
+
+            return rebalancearEsqDir(no);
         }
-        else
+        if (no->balanco == 2)
         {
-
-            if (no->esq->altura == 2 && no->dir->altura == 0 && no->esq->balanco == 1)
+            if (no->dir->balanco == 1)
             {
-                return rebalancearEsqDir(no);
+                return rebalancearDirDir(no);
             }
-            else
-            {
-
-                if (no->dir->altura == 2 && no->esq->altura == 0 && no->dir->balanco == 1)
-                {
-                    return rebalancearDirDir(no);
-                }
-                else
-                {
-
-                    if (no->dir->altura == 2 && no->esq->altura == 0 && no->dir->balanco == -1)
-                    {
-                        return rebalancearDirEsq(no);
-                    }
-                }
-            }
+            return rebalancearDirEsq(no);
         }
-
-        return no;
     }
+
+    return no;
 }
 
 struct noBst *rebalancearEsqEsq(struct noBst *no)
