@@ -288,5 +288,76 @@ int altura(struct noBst *raiz)
  **/
 struct noBst *remover(struct noBst *raiz, int val, int *tamanho)
 {
-    // IMPLEMENTAR
+    if (raiz == NULL)
+    {
+        return raiz;
+    }
+
+    if (raiz->val == val)
+    {
+
+        if (raiz->esq == NULL && raiz->dir == NULL)
+        {
+            free(raiz);
+            *tamanho = *tamanho - 1;
+            return NULL;
+        }
+
+        if (raiz->dir != NULL && raiz->esq != NULL)
+        {
+            struct noBst *aux = raiz->esq;
+            while (aux->dir != NULL)
+            {
+                aux = aux->dir;
+            }
+
+            raiz->val = aux->val;
+            aux->val = val;
+
+            raiz->esq = remover(raiz->esq, val, tamanho);
+
+            if (raiz->esq != NULL)
+            {
+                atualizar(raiz->esq);
+                raiz->esq = balancear(raiz->esq);
+            }
+
+            return raiz;
+        }
+
+        struct noBst *aux;
+
+        if (raiz->esq != NULL)
+        {
+            aux = raiz->esq;
+        }
+        else
+        {
+            aux = raiz->dir;
+        }
+        free(raiz);
+        *tamanho = *tamanho - 1;
+        return aux;
+    }
+    if (raiz->val > val)
+    {
+        raiz->esq = remover(raiz->esq, val, tamanho);
+
+        if (raiz->esq != NULL)
+        {
+            atualizar(raiz->esq);
+            raiz->esq = balancear(raiz->esq);
+        }
+    }
+    else
+    {
+        raiz->dir = remover(raiz->dir, val, tamanho);
+        if (raiz->dir != NULL)
+        {
+            atualizar(raiz->dir);
+            raiz->dir = balancear(raiz->dir);
+        }
+    }
+
+    return raiz;
 }
